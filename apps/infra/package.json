@@ -1,0 +1,20 @@
+{
+  "name": "infra",
+  "version": "0.1.0",
+  "bin": {
+    "infra": "bin/infra.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk"
+  },
+  "dependencies": {
+    "@hexarch/api": "workspace:*",
+    "aws-cdk": "2.147.0",
+    "aws-cdk-lib": "2.147.0",
+    "constructs": "^10.0.0",
+    "esbuild": "^0.24.0",
+    "source-map-support": "^0.5.21"
+  }
+}

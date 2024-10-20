@@ -1,0 +1,23 @@
+{
+  "name": "@hexarch/api",
+  "version": "1.0.0",
+  "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "typecheck": "tsc --noEmit",
+    "dev": "tsx --watch ./src/devevelopment.ts"
+  },
+  "dependencies": {
+    "@hexarch/core": "workspace:*",
+    "hono": "^4.6.5"
+  },
+  "devDependencies": {
+    "@hono/node-server": "^1.13.2"
+  }
+}
