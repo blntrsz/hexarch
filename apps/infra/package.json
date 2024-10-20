@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@hexarch/api": "workspace:*",
-    "aws-cdk": "2.147.0",
-    "aws-cdk-lib": "2.147.0",
-    "constructs": "^10.0.0",
+    "aws-cdk": "2.162.1",
+    "aws-cdk-lib": "2.162.1",
+    "constructs": "^10.4.2",
     "esbuild": "^0.24.0",
     "source-map-support": "^0.5.21"
   }

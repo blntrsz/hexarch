@@ -1,4 +1,4 @@
-import { createContext } from "../../common/context";
+import { createContext } from "#common/context.js";
 
 export interface DomainEvent {
   name: string;

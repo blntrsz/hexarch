@@ -34,7 +34,7 @@ export class UpdateTaskUseCase {
         status: input.status,
       });
 
-      await this.taskRepository().upsert(task);
+      await this.taskRepository().save(task);
       await this.bus().emit(TaskEvent.getUpdated(existingTask, task));
 
       return task;

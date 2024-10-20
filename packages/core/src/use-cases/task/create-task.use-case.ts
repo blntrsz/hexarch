@@ -26,7 +26,7 @@ export class CreateTaskUseCase {
       Guard.parseSchema(Input, input);
 
       const task = Task.create(input);
-      await this.taskRepository().upsert(task);
+      await this.taskRepository().save(task);
       await this.bus().emit(TaskEvent.getCreated(task));
 
       return task;

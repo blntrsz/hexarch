@@ -12,7 +12,7 @@ class InMemoryTaskRepository implements TaskRepository {
     this.tasks = [];
   }
 
-  async upsert(entity: Task.Entity): Promise<void> {
+  async save(entity: Task.Entity): Promise<void> {
     const existingTask = this.tasks.find((task) => task.id === entity.id);
 
     if (existingTask) {

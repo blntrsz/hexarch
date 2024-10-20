@@ -1,6 +1,9 @@
-export type Paginated<T> = {
-  data: T[];
+export type PaginatedOptions = {
   pageSize: number;
   pageNumber: number;
-  hasNextPage: boolean;
 };
+
+export type Paginated<T> = {
+  data: Readonly<T[]>;
+  hasNextPage: boolean;
+} & PaginatedOptions;

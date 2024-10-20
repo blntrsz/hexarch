@@ -10,9 +10,12 @@ export function createContext<T>() {
       }
       return result;
     },
-    with(value: T) {
-      return function <R>(function_: () => R) {
-        return storage.run<R>(value, function_);
+    with(value: T, cleanup?: () => Promise<void> | void) {
+      return async function <R>(function_: () => R) {
+        const result = await storage.run<R>(value, function_);
+        await cleanup?.();
+
+        return result;
       };
     },
   };

@@ -26,7 +26,7 @@ export class FindOneTaskUseCase {
         title: "task",
       });
 
-      await this.taskRepository().upsert(task);
+      await this.taskRepository().save(task);
 
       return this.taskRepository().findOne(task.id);
     });

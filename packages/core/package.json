@@ -16,6 +16,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@testcontainers/postgresql": "^10.13.2"
+    "@testcontainers/postgresql": "^10.13.2",
+    "slonik": "^46.1.0",
+    "slonik-interceptor-preset": "^1.2.10"
   }
 }
