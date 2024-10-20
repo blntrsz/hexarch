@@ -4,12 +4,16 @@ import { Guard } from "#common/guard.js";
 import { Task } from "#domain/entities/task.entity.js";
 import { TaskEvent } from "#domain/events/task.events.js";
 import { TaskRepositoryContext } from "#domain/repositories/task.repository.js";
+import { TransactionContext } from "#domain/repositories/transaction.js";
 import { BusContext } from "#domain/services/bus.js";
 import { ObservabilityContext } from "#domain/services/observability.js";
 
 type Input = z.infer<typeof Input>;
 const Input = Task.Info.pick({
   id: true,
+  title: true,
+  status: true,
+}).partial({
   title: true,
   status: true,
 });
@@ -19,6 +23,7 @@ export class UpdateTaskUseCase {
     private readonly taskRepository = TaskRepositoryContext.use,
     private readonly observability = ObservabilityContext.use,
     private readonly bus = BusContext.use,
+    private readonly transaction = TransactionContext.use,
   ) {}
 
   async execute(input: Input) {
@@ -34,10 +39,12 @@ export class UpdateTaskUseCase {
         status: input.status,
       });
 
-      await this.taskRepository().save(task);
-      await this.bus().emit(TaskEvent.getUpdated(existingTask, task));
+      return this.transaction().create(async () => {
+        await this.taskRepository().save(task);
+        await this.bus().emit(TaskEvent.getUpdated(existingTask, task));
 
-      return task;
+        return task;
+      });
     });
   }
 }

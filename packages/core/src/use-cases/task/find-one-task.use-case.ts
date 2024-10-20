@@ -20,15 +20,16 @@ export class FindOneTaskUseCase {
     const span = this.observability().span("use-case", FindOneTaskUseCase.name);
 
     return span(async () => {
-      Guard.parseSchema(Input, input);
+      const span = this.observability().span(
+        "use-case",
+        FindOneTaskUseCase.name,
+      );
 
-      const task = Task.create({
-        title: "task",
+      return span(async () => {
+        Guard.parseSchema(Input, input);
+
+        return this.taskRepository().findOne(input.id);
       });
-
-      await this.taskRepository().save(task);
-
-      return this.taskRepository().findOne(task.id);
     });
   }
 }

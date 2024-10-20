@@ -6,9 +6,9 @@
     "lint:fix": "manypkg fix",
     "scan": "pnpm lint && pnpm -r lint && pnpm -r typecheck && pnpm -r format",
     "scan:fix": "pnpm lint:fix && pnpm -r lint:fix && pnpm -r format:fix",
-    "test": "vitest",
-    "test:coverage": "vitest  --coverage",
-    "test:ci": "vitest run --coverage"
+    "test": "ROARR_LOG=true vitest",
+    "test:coverage": "ROARR_LOG=true vitest  --coverage",
+    "test:ci": "ROARR_LOG=true vitest run --coverage"
   },
   "packageManager": "pnpm@9.10.0+sha512.73a29afa36a0d092ece5271de5177ecbf8318d454ecd701343131b8ebc0c1a91c487da46ab77c8e596d6acf1461e3594ced4becedf8921b074fbd8653ed7051c",
   "dependencies": {
@@ -18,6 +18,7 @@
     "@tsconfig/node20": "^20.1.4",
     "@types/jest": "^29.5.13",
     "@types/node": "^22.7.7",
+    "@vitest/coverage-v8": "2.1.3",
     "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.37.1",
@@ -29,8 +30,5 @@
     "typescript-eslint": "^8.10.0",
     "vitest": "^2.1.3",
     "zod": "^3.23.8"
-  },
-  "devDependencies": {
-    "@vitest/coverage-v8": "2.1.3"
   }
 }

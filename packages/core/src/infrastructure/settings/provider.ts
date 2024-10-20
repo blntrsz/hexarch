@@ -1,14 +1,16 @@
-// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-export function Provider(contexts: Function[]) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  return function (callback: Function) {
+export function Provider(contexts: ((callback: () => unknown) => unknown)[]) {
+  return function <TResult>(
+    callback: () => Promise<TResult> | TResult | void,
+  ): Promise<TResult> {
     if (contexts.length > 1) {
       const [firstContext, ...otherContexts] = contexts;
 
-      return firstContext(() => Provider(otherContexts)(callback));
+      return firstContext(() =>
+        Provider(otherContexts)(callback),
+      ) as Promise<TResult>;
     }
 
     const [firstDependency] = contexts;
-    return firstDependency(() => callback());
+    return firstDependency(() => callback()) as Promise<TResult>;
   };
 }

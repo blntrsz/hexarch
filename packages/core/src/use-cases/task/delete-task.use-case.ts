@@ -4,6 +4,7 @@ import { Guard } from "#common/guard.js";
 import { Task } from "#domain/entities/task.entity.js";
 import { TaskEvent } from "#domain/events/task.events.js";
 import { TaskRepositoryContext } from "#domain/repositories/task.repository.js";
+import { TransactionContext } from "#domain/repositories/transaction.js";
 import { BusContext } from "#domain/services/bus.js";
 import { ObservabilityContext } from "#domain/services/observability.js";
 
@@ -17,6 +18,7 @@ export class DeleteTaskUseCase {
     private readonly taskRepository = TaskRepositoryContext.use,
     private readonly observability = ObservabilityContext.use,
     private readonly bus = BusContext.use,
+    private readonly transaction = TransactionContext.use,
   ) {}
 
   async execute(input: Input) {
@@ -27,10 +29,12 @@ export class DeleteTaskUseCase {
 
       const task = await this.taskRepository().findOne(input.id);
 
-      await this.taskRepository().delete(task);
-      await this.bus().emit(TaskEvent.getDeleted(task));
+      return this.transaction().create(async () => {
+        await this.taskRepository().delete(task);
+        await this.bus().emit(TaskEvent.getDeleted(task));
 
-      return task;
+        return task;
+      });
     });
   }
 }

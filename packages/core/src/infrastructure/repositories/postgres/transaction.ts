@@ -1,13 +1,15 @@
-import { ConnectionContext } from "#domain/repositories/connection.js";
+import { TransactionContext } from "#domain/repositories/transaction.js";
 
-import { PostgresConnection } from "./connection";
+import { ConnectionContext, PostgresConnection } from "./connection";
 
-export async function createTransaction<TResult>(
-  callback: () => Promise<TResult>,
-) {
-  const conn = await ConnectionContext.use().get();
+export const PostgresTransactionContext = TransactionContext.with({
+  create: async function createTransaction<TResult>(
+    callback: () => Promise<TResult>,
+  ) {
+    const conn = await ConnectionContext.use().get();
 
-  return conn.transaction((tx) => {
-    return ConnectionContext.with(new PostgresConnection(tx))(callback);
-  });
-}
+    return conn.transaction((tx) => {
+      return ConnectionContext.with(new PostgresConnection(tx))(callback);
+    });
+  },
+});

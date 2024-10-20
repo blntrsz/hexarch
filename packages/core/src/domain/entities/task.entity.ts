@@ -16,8 +16,8 @@ export namespace Task {
     id: z.string().uuid(),
     title: z.string(),
     status: z.nativeEnum(Status),
-    createdAt: z.date(),
-    updatedAt: z.date(),
+    createdAt: z.coerce.date(),
+    updatedAt: z.coerce.date(),
   });
 
   export type Entity = z.infer<typeof Entity>;
@@ -45,7 +45,7 @@ export namespace Task {
     const now = new Date();
 
     return Guard.parseSchema(Entity, {
-      ...previousEntity,
+      ...structuredClone(previousEntity),
       title,
       status,
       updatedAt: now,

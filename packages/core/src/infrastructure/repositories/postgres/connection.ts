@@ -7,10 +7,8 @@ import {
 // @ts-expect-error -- not typed
 import { createInterceptors as createSlonikInterceptors } from "slonik-interceptor-preset";
 
-import {
-  Connection,
-  ConnectionContext,
-} from "#domain/repositories/connection.js";
+import { createContext } from "#common/context.js";
+import { createResultParserInterceptor } from "#common/slonik.js";
 import { EnvironmentContext } from "#domain/settings/environment.js";
 
 type UserConfigurationType = {
@@ -42,6 +40,12 @@ export function createInterceptors(
   return createSlonikInterceptors(userConfiguration);
 }
 
+export interface Connection {
+  get(): Promise<CommonQueryMethods>;
+}
+
+export const ConnectionContext = createContext<Connection>();
+
 export class PostgresConnection implements Connection {
   pool?: CommonQueryMethods | DatabasePool;
 
@@ -54,9 +58,13 @@ export class PostgresConnection implements Connection {
 
     const environment = EnvironmentContext.use();
     const pool = await createPool(environment.DATABASE_URL, {
-      interceptors: createInterceptors({
-        logQueries: environment.NODE_ENV !== "production",
-      }),
+      interceptors: [
+        ...createInterceptors({
+          logQueries: true,
+          benchmarkQueries: true,
+        }),
+        createResultParserInterceptor(),
+      ],
     });
     this.pool = pool;
 
@@ -64,7 +72,7 @@ export class PostgresConnection implements Connection {
   }
 
   async cleanup() {
-    if (this.pool && "end" in this.pool) {
+    if (this?.pool && "end" in this.pool) {
       await this.pool.end();
     }
   }
