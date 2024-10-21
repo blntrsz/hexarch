@@ -18,7 +18,7 @@ const main = async () => {
   });
 
   Handlebars.registerHelper("getTag", function (path: string) {
-    const regex = /\/\[a-z_\]+/;
+    const regex = /\/[a-z_]+/;
     const match = path.match(regex);
 
     return match?.at(0)?.replace("/", "") ?? "default";
@@ -40,9 +40,9 @@ const main = async () => {
     templatePath: "src/template.hbs",
     options: {
       shouldExportAllSchemas: true,
+      additionalPropertiesDefaultValue: false,
       groupStrategy: "tag",
       withAlias: true,
-      withDescription: true,
       withDocs: true,
       withAllResponses: true,
       withDefaultValues: true,

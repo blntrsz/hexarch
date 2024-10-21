@@ -7,7 +7,6 @@ import {
 
 import { testBus } from "#infrastructure/services/test/bus.js";
 import { setupTestSettingsProvider } from "#infrastructure/settings/test-settings-provider.js";
-import { Task } from "#domain/entities/task.entity.js";
 import { TaskEvent } from "#domain/events/task.events.js";
 
 import { CreateTaskUseCase } from "./create-task.use-case";
@@ -39,14 +38,14 @@ describe("Task Use Cases", async () => {
       expect(await new FindOneTaskUseCase().execute({ id: task.id })).toEqual({
         id: task.id,
         title: taskTitle,
-        status: Task.Status.TO_DO,
+        status: "to_do",
         createdAt: task.createdAt,
         updatedAt: task.updatedAt,
       });
 
       await new UpdateTaskUseCase().execute({
         id: task.id,
-        status: Task.Status.DONE,
+        status: "done",
       });
 
       const updatedTask = await new FindOneTaskUseCase().execute({
@@ -55,7 +54,7 @@ describe("Task Use Cases", async () => {
       expect(updatedTask).toEqual({
         id: task.id,
         title: taskTitle,
-        status: Task.Status.DONE,
+        status: "done",
         createdAt: task.createdAt,
         updatedAt: expect.any(Date),
       });

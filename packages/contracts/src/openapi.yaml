@@ -1,0 +1,215 @@
+---
+openapi: 3.0.2
+info:
+  title: Swagger Petstore - OpenAPI 3.0
+  version: 1.0.0
+paths:
+  /tasks:
+    post:
+      operationId: createTask
+      tags:
+        - tasks
+      requestBody:
+        $ref: "#/components/requestBodies/CreateTaskRequest"
+      responses:
+        "201":
+          $ref: "#/components/responses/TaskMutationResponse"
+    get:
+      operationId: getTasks
+      tags:
+        - tasks
+      parameters:
+        - $ref: "#/components/parameters/PageSizeQueryParameter"
+        - $ref: "#/components/parameters/PageNumberQueryParameter"
+      responses:
+        "200":
+          $ref: "#/components/responses/ListTasksResponse"
+  /tasks/{id}:
+    get:
+      operationId: getTask
+      tags:
+        - tasks
+      parameters:
+        - $ref: "#/components/parameters/IdPathParameter"
+      responses:
+        "200":
+          $ref: "#/components/responses/GetOneTaskResponse"
+    patch:
+      operationId: updateTask
+      tags:
+        - tasks
+      parameters:
+        - $ref: "#/components/parameters/IdPathParameter"
+      requestBody:
+        $ref: "#/components/requestBodies/UpdateTaskRequest"
+      responses:
+        "200":
+          $ref: "#/components/responses/GetOneTaskResponse"
+    delete:
+      operationId: deleteTask
+      tags:
+        - tasks
+      parameters:
+        - $ref: "#/components/parameters/IdPathParameter"
+      responses:
+        "204":
+          description: "No content"
+
+components:
+  parameters:
+    IdPathParameter:
+      name: id
+      in: path
+      description: "ID path parameter"
+      required: true
+      schema:
+        type: string
+    PageNumberQueryParameter:
+      name: page[number]
+      in: query
+      description: "Page Number."
+      required: true
+      schema:
+        type: integer
+    PageSizeQueryParameter:
+      name: page[size]
+      in: query
+      description: "Page Size."
+      required: true
+      schema:
+        type: integer
+  requestBodies:
+    CreateTaskRequest:
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/TaskCreate"
+    UpdateTaskRequest:
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/TaskUpdate"
+  responses:
+    TaskMutationResponse:
+      description: "Task Created or Updated Response."
+      content:
+        "application/json":
+          schema:
+            type: object  
+            required:
+              - data
+            properties:
+              data:
+                $ref: "#/components/schemas/Task"
+    GetOneTaskResponse:
+      description: "Get One Task Response."
+      content:
+        "application/json":
+          schema:
+            type: object  
+            required:
+              - data
+            properties:
+              data:
+                $ref: "#/components/schemas/Task"
+    ListTasksResponse:
+      description: "List Tasks."
+      content:
+        "application/json":
+          schema:
+            type: object  
+            required:
+              - data
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+              links:
+                  $ref: "#/components/schemas/Links"
+  schemas:
+    Links:
+      type: object
+      properties:
+        prev:
+          type: string
+        next:
+          type: string
+
+    TaskIdentifier:
+      type: object
+      required:
+        - id
+        - type
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+            - tasks
+
+    TaskAttributes:
+      type: object
+      required:
+        - title
+        - status
+        - created_at
+        - updated_at
+      properties:
+        title:
+          type: string
+        status:
+          type: string
+          enum:
+            - to_do
+            - in_progress
+            - done
+        created_at:
+          type: string
+        updated_at:
+          type: string
+
+    TaskUpdate:
+      allOf:
+        - $ref: "#/components/schemas/TaskIdentifier"
+        - type: object
+          required:
+            - attributes
+          properties:
+            attributes:
+              type: object
+              properties:
+                title:
+                  $ref:  "#/components/schemas/TaskAttributes/properties/title"
+                status:
+                  $ref:  "#/components/schemas/TaskAttributes/properties/status"
+
+    TaskCreate:
+      type: object
+      required:
+        - attributes
+        - type
+      properties:
+        type:
+          $ref: "#/components/schemas/TaskIdentifier/properties/type"
+        attributes:
+          type: object
+          required:
+            - title
+          properties:
+            title:
+              $ref:  "#/components/schemas/TaskAttributes/properties/title"
+
+    Task:
+      allOf:
+        - $ref: "#/components/schemas/TaskIdentifier"
+        - type: object
+          required:
+            - attributes
+          properties:
+            attributes:
+              $ref: "#/components/schemas/TaskAttributes"
+
+
+      

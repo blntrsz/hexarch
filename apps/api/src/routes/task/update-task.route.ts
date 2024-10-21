@@ -1,15 +1,17 @@
 import { schemas, tasksEndpoints } from "@hexarch/contracts";
-import { CreateTaskUseCase } from "@hexarch/core/use-cases/task/create-task.use-case";
+import { UpdateTaskUseCase } from "@hexarch/core/use-cases/task/update-task.use-case";
 import { OpenAPIHono } from "@hono/zod-openapi";
 
 import { serializeTask } from "./serialize";
 
-export const createTaskRoute = new OpenAPIHono().openapi(
-  tasksEndpoints.createTask,
+export const updateTaskRoute = new OpenAPIHono().openapi(
+  tasksEndpoints.updateTask,
   async (c) => {
     const body = c.req.valid("json");
 
-    const result = await new CreateTaskUseCase().execute({
+    const result = await new UpdateTaskUseCase().execute({
+      id: body.id,
+      status: body.attributes.status,
       title: body.attributes.title,
     });
 
@@ -17,7 +19,7 @@ export const createTaskRoute = new OpenAPIHono().openapi(
       {
         data: serializeTask(result, schemas.Task),
       },
-      201,
+      200,
     );
   },
 );

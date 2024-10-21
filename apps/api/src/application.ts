@@ -1,18 +1,18 @@
-import { CreateTaskUseCase } from "@hexarch/core/use-cases/task/create-task.use-case";
-import { FindOneTaskUseCase } from "@hexarch/core/use-cases/task/find-one-task.use-case";
-import { Hono } from "hono";
+import { OpenAPIHono } from "@hono/zod-openapi";
 
-export const app = new Hono()
-  .post("/tasks", async (c) => {
-    const result = await new CreateTaskUseCase().execute({
-      title: "",
-    });
+import { createTaskRoute } from "#routes/task/create-task.route.js";
+import { deleteTaskRoute } from "#routes/task/delete-task.route.js";
+import { getTaskRoute } from "#routes/task/get-task.route.js";
+import { listTasksRoute } from "#routes/task/list-tasks.route.js";
+import { updateTaskRoute } from "#routes/task/update-task.route.js";
 
-    return c.json(result);
-  })
-  .get("/tasks/:id", async (c) => {
-    const { id } = c.req.param();
-    const result = await new FindOneTaskUseCase().execute({ id });
+export const app = new OpenAPIHono();
 
-    return c.json(result);
-  });
+export const routes = app
+  .route("/", createTaskRoute)
+  .route("/", getTaskRoute)
+  .route("/", listTasksRoute)
+  .route("/", updateTaskRoute)
+  .route("/", deleteTaskRoute);
+
+export type Routes = typeof routes;

@@ -16,6 +16,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@aws-lambda-powertools/logger": "^2.9.0",
+    "@aws-lambda-powertools/metrics": "^2.9.0",
+    "@aws-lambda-powertools/tracer": "^2.9.0",
     "@faker-js/faker": "^9.0.3",
     "@hexarch/migrator": "workspace:*",
     "@testcontainers/postgresql": "^10.13.2",

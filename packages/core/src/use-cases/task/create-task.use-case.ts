@@ -22,7 +22,7 @@ export class CreateTaskUseCase {
   ) {}
 
   async execute(input: Input) {
-    const span = this.observability().span("use-case", CreateTaskUseCase.name);
+    const span = this.observability().span("UseCase", CreateTaskUseCase.name);
 
     return span(async () => {
       Guard.parseSchema(Input, input);

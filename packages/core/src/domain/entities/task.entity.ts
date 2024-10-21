@@ -4,18 +4,13 @@ import { randomUUID } from "node:crypto";
 import { Guard } from "#common/guard.js";
 
 export namespace Task {
-  export const brand = "tasks";
-  export enum Status {
-    TO_DO = "to_do",
-    IN_PROGRESS = "in_progress",
-    DONE = "done",
-  }
+  export const brand = "tasks" as const;
 
   export type Info = z.infer<typeof Info>;
   export const Info = z.object({
     id: z.string().uuid(),
     title: z.string(),
-    status: z.nativeEnum(Status),
+    status: z.enum(["to_do", "in_progress", "done"]),
     createdAt: z.coerce.date(),
     updatedAt: z.coerce.date(),
   });
@@ -29,7 +24,7 @@ export namespace Task {
     return Guard.parseSchema(Entity, {
       id: randomUUID(),
       title: properties.title,
-      status: Status.TO_DO,
+      status: "to_do",
       updatedAt: now,
       createdAt: now,
     } as Entity);

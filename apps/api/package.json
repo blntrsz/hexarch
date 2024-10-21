@@ -14,7 +14,9 @@
     "dev": "tsx --watch ./src/devevelopment.ts"
   },
   "dependencies": {
+    "@hexarch/contracts": "workspace:*",
     "@hexarch/core": "workspace:*",
+    "@hono/zod-openapi": "^0.16.4",
     "hono": "^4.6.5"
   },
   "devDependencies": {

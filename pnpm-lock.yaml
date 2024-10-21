@@ -26,6 +26,9 @@ importers:
       '@types/node':
         specifier: ^22.7.7
         version: 22.7.7
+      '@vitest/coverage-v8':
+        specifier: 2.1.3
+        version: 2.1.3(vitest@2.1.3(@types/node@22.7.7))
       eslint:
         specifier: ^9.13.0
         version: 9.13.0
@@ -59,16 +62,18 @@ importers:
       zod:
         specifier: ^3.23.8
         version: 3.23.8
-    devDependencies:
-      '@vitest/coverage-v8':
-        specifier: 2.1.3
-        version: 2.1.3(vitest@2.1.3(@types/node@22.7.7))
 
   apps/api:
     dependencies:
+      '@hexarch/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
       '@hexarch/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@hono/zod-openapi':
+        specifier: ^0.16.4
+        version: 0.16.4(hono@4.6.5)(zod@3.23.8)
       hono:
         specifier: ^4.6.5
         version: 4.6.5
@@ -99,6 +104,10 @@ importers:
         version: 0.5.21
 
   packages/contracts:
+    dependencies:
+      '@hono/zod-openapi':
+        specifier: ^0.16.4
+        version: 0.16.4(hono@4.6.5)(zod@3.23.8)
     devDependencies:
       '@apidevtools/swagger-parser':
         specifier: ^10.1.0
@@ -118,6 +127,15 @@ importers:
 
   packages/core:
     dependencies:
+      '@aws-lambda-powertools/logger':
+        specifier: ^2.9.0
+        version: 2.9.0
+      '@aws-lambda-powertools/metrics':
+        specifier: ^2.9.0
+        version: 2.9.0
+      '@aws-lambda-powertools/tracer':
+        specifier: ^2.9.0
+        version: 2.9.0
       '@faker-js/faker':
         specifier: ^9.0.3
         version: 9.0.3
@@ -171,6 +189,11 @@ packages:
     peerDependencies:
       openapi-types: '>=7'
 
+  '@asteasolutions/zod-to-openapi@7.2.0':
+    resolution: {integrity: sha512-Va+Fq1QzKkSgmiYINSp3cASFhMsbdRH/kmCk2feijhC+yNjGoC056CRqihrVFhR8MY8HOZHdlYm2Ns2lmszCiw==}
+    peerDependencies:
+      zod: ^3.20.2
+
   '@aws-cdk/asset-awscli-v1@2.2.207':
     resolution: {integrity: sha512-5oRh5Ad7hGSqwM3+/X8MmIkUjBMGU9sd1g+pa3L0s8IL15OQcFW0ZT0gsUdEb/N/JV663jUUpSbtD7pLO65O4Q==}
 
@@ -185,6 +208,37 @@ packages:
     bundledDependencies:
       - jsonschema
       - semver
+
+  '@aws-lambda-powertools/commons@2.9.0':
+    resolution: {integrity: sha512-01RHHCDyAHp5uK0jjUxxh2P89lqLEvaP39bxAI4FTuL9ZGbvFnmmzA8MFXtBH/R/oxZgk/+XxzvoNtb46dhVoA==}
+
+  '@aws-lambda-powertools/logger@2.9.0':
+    resolution: {integrity: sha512-1LvpOu1NhjfNh9GEoYW+vsuaD71j9Mh34sSDCF+mX8jSHoaI3b4GMQ1HSJ5UX0GJiZkBl1wfQz4wSRQFzUXZNw==}
+    peerDependencies:
+      '@middy/core': 4.x || 5.x
+    peerDependenciesMeta:
+      '@middy/core':
+        optional: true
+
+  '@aws-lambda-powertools/metrics@2.9.0':
+    resolution: {integrity: sha512-ramKERstI8MP0ICzxkwDe/tov/wlrqJemJGOAkGwTZjRUO2w1D1XPL721NFERfFc0SQAIGuZA28KC66n9u0BNg==}
+    peerDependencies:
+      '@middy/core': 4.x || 5.x
+    peerDependenciesMeta:
+      '@middy/core':
+        optional: true
+
+  '@aws-lambda-powertools/tracer@2.9.0':
+    resolution: {integrity: sha512-if+gyyp2xR/hKTO8LYtPkNnxghQ9+Qc9Bo0uv8WdZ/U92wTq+ufmk0JTktOkhUJ+E5veGvpZXdbHkcaCvmr9jA==}
+    peerDependencies:
+      '@middy/core': 4.x || 5.x
+    peerDependenciesMeta:
+      '@middy/core':
+        optional: true
+
+  '@aws-sdk/types@3.664.0':
+    resolution: {integrity: sha512-+GtXktvVgpreM2b+NJL9OqZGsOzHwlCUrO8jgQUvH/yA6Kd8QO2YFhQCp0C9sSzTteZJVqGBu8E0CQurxJHPbw==}
+    engines: {node: '>=16.0.0'}
 
   '@babel/code-frame@7.25.7':
     resolution: {integrity: sha512-0xZJFNE5XMpENsgfHYTw8FbX4kv53mFLn2i3XPoq69LyhYSCBJtitaHx9QnsVTrsogI4Z3+HtEfZ2/GFPOtf5g==}
@@ -741,6 +795,19 @@ packages:
     peerDependencies:
       hono: ^4
 
+  '@hono/zod-openapi@0.16.4':
+    resolution: {integrity: sha512-mnF6GthBaKex0D5PsY/4lYNtkaGJNE38bjeUI//EUqq7Ee4TNm2su35IUiFH4HcmJp5fWYMLyOJOpjnkClzEGw==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      hono: '>=4.3.6'
+      zod: 3.*
+
+  '@hono/zod-validator@0.3.0':
+    resolution: {integrity: sha512-7XcTk3yYyk6ldrO/VuqsroE7stvDZxHJQcpATRAyha8rUxJNBPV3+6waDrARfgEqxOVlzIadm3/6sE/dPseXgQ==}
+    peerDependencies:
+      hono: '>=3.9.0'
+      zod: ^3.19.1
+
   '@humanfs/core@0.19.0':
     resolution: {integrity: sha512-2cbWIHbZVEweE853g8jymffCA+NCMiuqeECeBBLm8dg2oFdjuGJhgN4UAbI+6v0CKbbhvtXA4qV8YR5Ji86nmw==}
     engines: {node: '>=18.18.0'}
@@ -974,11 +1041,26 @@ packages:
     peerDependencies:
       zod: ^3
 
+  '@smithy/service-error-classification@2.1.5':
+    resolution: {integrity: sha512-uBDTIBBEdAQryvHdc5W8sS5YX7RQzF683XrHePVdFmAgKiMofU15FLSM0/HU03hKTnazdNRFa0YHS7+ArwoUSQ==}
+    engines: {node: '>=14.0.0'}
+
+  '@smithy/types@2.12.0':
+    resolution: {integrity: sha512-QwYgloJ0sVNBeBuBs65cIkTbfzV/Q6ZNPCJ99EICFEdJYG50nGIY/uYXp+TbsdJReIuPr0a0kXmCvren3MbRRw==}
+    engines: {node: '>=14.0.0'}
+
+  '@smithy/types@3.6.0':
+    resolution: {integrity: sha512-8VXK/KzOHefoC65yRgCn5vG1cysPJjHnOVt9d0ybFQSmJgQj152vMn4EkYhGuaOmnnZvCPav/KnYyE6/KsNZ2w==}
+    engines: {node: '>=16.0.0'}
+
   '@testcontainers/postgresql@10.13.2':
     resolution: {integrity: sha512-xd3u/rL8FrOBHFMu1aU+2d4sqPz9ffEb19ITtopT/tyBZWW9qCsgR6wSg0r2BJUd+2hT4UR5nR5cymi+ROkehw==}
 
   '@tsconfig/node20@20.1.4':
     resolution: {integrity: sha512-sqgsT69YFeLWf5NtJ4Xq/xAF8p4ZQHlmGW74Nu2tD4+g5fAsposc4ZfaaPixVu4y01BEiDCWLRDCvDM5JOsRxg==}
+
+  '@types/cls-hooked@4.3.8':
+    resolution: {integrity: sha512-tf/7H883gFA6MPlWI15EQtfNZ+oPL0gLKkOlx9UHFrun1fC/FkuyNBpTKq1B5E3T4fbvjId6WifHUdSGsMMuPg==}
 
   '@types/docker-modem@3.0.6':
     resolution: {integrity: sha512-yKpAGEuKRSS8wwx0joknWxsmLha78wNMe9R2S3UNsVOkZded8UqOrV8KoeDXoXsjndxwyF3eIhyClGbO1SEhEg==}
@@ -1251,6 +1333,10 @@ packages:
     resolution: {integrity: sha512-+Ryf6g3BKoRc7jfp7ad8tM4TtMiaWvbF/1/sQcZPkkS7ag3D5nMBCe2UfOTONtAkaG0tO0ij3C5Lwmf1EiyjHg==}
     engines: {node: '>=4'}
 
+  async-hook-jl@1.7.6:
+    resolution: {integrity: sha512-gFaHkFfSxTjvoxDMYqDuGHlcRyUuamF8s+ZTtJdDzqjws4mCt7v0vuV79/E2Wr2/riMQgtG4/yUtXWs1gZ7JMg==}
+    engines: {node: ^4.7 || >=6.9 || >=7.3}
+
   async-lock@1.4.1:
     resolution: {integrity: sha512-Az2ZTpuytrtqENulXwO3GGv1Bztugx6TT37NIo7imr/Qo0gsYiGtSdBa2B6fsXhTpVZDNfu1Qn3pk531e3q+nQ==}
 
@@ -1259,6 +1345,9 @@ packages:
 
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
+
+  atomic-batcher@1.0.2:
+    resolution: {integrity: sha512-EFGCRj4kLX1dHv1cDzTk+xbjBFj1GnJDpui52YmEcxxHHEWjYyT6l51U7n6WQ28osZH4S9gSybxe56Vm7vB61Q==}
 
   available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
@@ -1286,6 +1375,10 @@ packages:
     resolution: {integrity: sha512-p9WeiJ7wfiWj0Bpr1HhNdWENf0TxSZN73JtNqvqyaK6SptiLJc+R+ELo0hF3qKT99NWHTCbwWA/JH3BvEXbFxA==}
     engines: {node: '>= 14.15.0'}
     hasBin: true
+
+  aws-xray-sdk-core@3.10.1:
+    resolution: {integrity: sha512-Eb1Iy5WEjRqRi8G+gi32QjR7t/9xTDore8EKasXsPMXCLMlYunslxJAvT2PDLXQ7ohEC/mKT9+7tUyUt6CGruw==}
+    engines: {node: '>= 14.x'}
 
   axios@1.7.7:
     resolution: {integrity: sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==}
@@ -1430,6 +1523,10 @@ packages:
   cliui@8.0.1:
     resolution: {integrity: sha512-BSeNnyus75C4//NQ9gQt1/csTXyo/8Sb+afLAkzAptFuMsod9HFokGNudZpi/oQV73hnVK+sR+5PVRMd+Dr7YQ==}
     engines: {node: '>=12'}
+
+  cls-hooked@4.2.2:
+    resolution: {integrity: sha512-J4Xj5f5wq/4jAvcdgoGsL3G103BtWpZrMo8NEinRltN+xpTZdI+M38pyQqhuFU/P792xkMFvnKSf+Lm81U1bxw==}
+    engines: {node: ^4.7 || >=6.9 || >=7.3 || >=8.2.1}
 
   color-convert@1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
@@ -1582,6 +1679,9 @@ packages:
 
   electron-to-chromium@1.5.41:
     resolution: {integrity: sha512-dfdv/2xNjX0P8Vzme4cfzHqnPm5xsZXwsolTYr0eyW18IUmNyG08vL+fttvinTfhKfIKdRoqkDIC9e9iWQCNYQ==}
+
+  emitter-listener@1.1.2:
+    resolution: {integrity: sha512-Bt1sBAGFHY9DKY+4/2cV6izcKJUf5T7/gkdmkxzX/qv9CcGH8xSwVRW5mtX03SWJtRTWSOpzCuWN9rBFYZepZQ==}
 
   emoji-regex@7.0.3:
     resolution: {integrity: sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA==}
@@ -2885,6 +2985,9 @@ packages:
   shell-quote@1.8.1:
     resolution: {integrity: sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==}
 
+  shimmer@1.2.1:
+    resolution: {integrity: sha512-sQTKC1Re/rM6XyFM6fIAGHRPVGvyXfgzIDvzoq608vM+jeyVD0Tu1E6Np0Kc2zAIFWIj963V2800iF/9LPieQw==}
+
   side-channel@1.0.6:
     resolution: {integrity: sha512-fDW/EZ6Q9RiO8eFG8Hj+7u/oW+XrPTIChwCOM2+th2A6OblDtYYIpve9m+KvI9Z4C9qSEXlaGR6bTEYHReuglA==}
     engines: {node: '>= 0.4'}
@@ -2987,6 +3090,9 @@ packages:
   ssh2@1.16.0:
     resolution: {integrity: sha512-r1X4KsBGedJqo7h8F5c4Ybpcr5RjyP+aWIG007uBPRjmdQWfEiVLzSK71Zji1B9sKxwaCvD8y8cwSkYrlLiRRg==}
     engines: {node: '>=10.16.0'}
+
+  stack-chain@1.3.7:
+    resolution: {integrity: sha512-D8cWtWVdIe/jBA7v5p5Hwl5yOSOrmZPWDPe2KxQ5UAGD+nxbxU0lKXA4h85Ta6+qgdKVL3vUxsbIZjc1kBG7ug==}
 
   stack-utils@2.0.6:
     resolution: {integrity: sha512-XlkWvfIm6RmsWtNJx+uqtKLS8eqFbxUg0ZzLXqY0caEy9l7hruX8IpiDnjsLavoBgqCCR71TqWO8MaXYheJ3RQ==}
@@ -3471,6 +3577,11 @@ snapshots:
       call-me-maybe: 1.0.2
       openapi-types: 12.1.3
 
+  '@asteasolutions/zod-to-openapi@7.2.0(zod@3.23.8)':
+    dependencies:
+      openapi3-ts: 4.4.0
+      zod: 3.23.8
+
   '@aws-cdk/asset-awscli-v1@2.2.207': {}
 
   '@aws-cdk/asset-kubectl-v20@2.1.3': {}
@@ -3478,6 +3589,27 @@ snapshots:
   '@aws-cdk/asset-node-proxy-agent-v6@2.1.0': {}
 
   '@aws-cdk/cloud-assembly-schema@38.0.1': {}
+
+  '@aws-lambda-powertools/commons@2.9.0': {}
+
+  '@aws-lambda-powertools/logger@2.9.0':
+    dependencies:
+      '@aws-lambda-powertools/commons': 2.9.0
+      lodash.merge: 4.6.2
+
+  '@aws-lambda-powertools/metrics@2.9.0':
+    dependencies:
+      '@aws-lambda-powertools/commons': 2.9.0
+
+  '@aws-lambda-powertools/tracer@2.9.0':
+    dependencies:
+      '@aws-lambda-powertools/commons': 2.9.0
+      aws-xray-sdk-core: 3.10.1
+
+  '@aws-sdk/types@3.664.0':
+    dependencies:
+      '@smithy/types': 3.6.0
+      tslib: 2.8.0
 
   '@babel/code-frame@7.25.7':
     dependencies:
@@ -3859,6 +3991,18 @@ snapshots:
     dependencies:
       hono: 4.6.5
 
+  '@hono/zod-openapi@0.16.4(hono@4.6.5)(zod@3.23.8)':
+    dependencies:
+      '@asteasolutions/zod-to-openapi': 7.2.0(zod@3.23.8)
+      '@hono/zod-validator': 0.3.0(hono@4.6.5)(zod@3.23.8)
+      hono: 4.6.5
+      zod: 3.23.8
+
+  '@hono/zod-validator@0.3.0(hono@4.6.5)(zod@3.23.8)':
+    dependencies:
+      hono: 4.6.5
+      zod: 3.23.8
+
   '@humanfs/core@0.19.0': {}
 
   '@humanfs/node@0.16.5':
@@ -4088,6 +4232,18 @@ snapshots:
       roarr: 7.21.1
       zod: 3.23.8
 
+  '@smithy/service-error-classification@2.1.5':
+    dependencies:
+      '@smithy/types': 2.12.0
+
+  '@smithy/types@2.12.0':
+    dependencies:
+      tslib: 2.8.0
+
+  '@smithy/types@3.6.0':
+    dependencies:
+      tslib: 2.8.0
+
   '@testcontainers/postgresql@10.13.2':
     dependencies:
       testcontainers: 10.13.2
@@ -4095,6 +4251,10 @@ snapshots:
       - supports-color
 
   '@tsconfig/node20@20.1.4': {}
+
+  '@types/cls-hooked@4.3.8':
+    dependencies:
+      '@types/node': 22.7.7
 
   '@types/docker-modem@3.0.6':
     dependencies:
@@ -4449,11 +4609,17 @@ snapshots:
 
   astral-regex@1.0.0: {}
 
+  async-hook-jl@1.7.6:
+    dependencies:
+      stack-chain: 1.3.7
+
   async-lock@1.4.1: {}
 
   async@3.2.6: {}
 
   asynckit@0.4.0: {}
+
+  atomic-batcher@1.0.2: {}
 
   available-typed-arrays@1.0.7:
     dependencies:
@@ -4470,6 +4636,15 @@ snapshots:
   aws-cdk@2.162.1:
     optionalDependencies:
       fsevents: 2.3.2
+
+  aws-xray-sdk-core@3.10.1:
+    dependencies:
+      '@aws-sdk/types': 3.664.0
+      '@smithy/service-error-classification': 2.1.5
+      '@types/cls-hooked': 4.3.8
+      atomic-batcher: 1.0.2
+      cls-hooked: 4.2.2
+      semver: 7.6.3
 
   axios@1.7.7:
     dependencies:
@@ -4625,6 +4800,12 @@ snapshots:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
+
+  cls-hooked@4.2.2:
+    dependencies:
+      async-hook-jl: 1.7.6
+      emitter-listener: 1.1.2
+      semver: 5.7.2
 
   color-convert@1.9.3:
     dependencies:
@@ -4783,6 +4964,10 @@ snapshots:
   eastasianwidth@0.2.0: {}
 
   electron-to-chromium@1.5.41: {}
+
+  emitter-listener@1.1.2:
+    dependencies:
+      shimmer: 1.2.1
 
   emoji-regex@7.0.3: {}
 
@@ -6259,6 +6444,8 @@ snapshots:
 
   shell-quote@1.8.1: {}
 
+  shimmer@1.2.1: {}
+
   side-channel@1.0.6:
     dependencies:
       call-bind: 1.0.7
@@ -6408,6 +6595,8 @@ snapshots:
     optionalDependencies:
       cpu-features: 0.0.10
       nan: 2.22.0
+
+  stack-chain@1.3.7: {}
 
   stack-utils@2.0.6:
     dependencies:

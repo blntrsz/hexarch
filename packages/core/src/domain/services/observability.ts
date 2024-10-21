@@ -7,6 +7,10 @@ export interface Observability {
   ): <TReturnType>(
     callback: () => Promise<TReturnType>,
   ) => Promise<TReturnType>;
+  debug(message: string): void;
+  info(message: string): void;
+  warn(message: string): void;
+  error(message: string | Error): void;
 }
 
 export const ObservabilityContext = createContext<Observability>();
