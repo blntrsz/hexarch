@@ -17,7 +17,9 @@ const Task = TaskIdentifier.and(z.object({ attributes: TaskAttributes }));
 const Links = z.object({ prev: z.string(), next: z.string() }).partial();
 const status = z.enum(["to_do", "in_progress", "done"]);
 const TaskUpdate = TaskIdentifier.and(
-  z.object({ attributes: z.object({ title: title, status: status }).partial() })
+  z.object({
+    attributes: z.object({ title: title, status: status }).partial(),
+  }),
 );
 
 export const schemas = {
@@ -67,8 +69,8 @@ export const tasksEndpoints = {
     tags: ["tasks"],
     request: {
       query: z.object({
-        "page[size]": z.number().int(),
-        "page[number]": z.number().int(),
+        "page[size]": z.coerce.number().int().optional().default(20),
+        "page[number]": z.coerce.number().int().optional().default(1),
       }),
       params: z.object({}),
     },
@@ -84,7 +86,7 @@ export const tasksEndpoints = {
     },
   }),
   getTask: createRoute({
-    path: "/tasks/:id",
+    path: "/tasks/{id}",
     method: "get",
     description: "",
     tags: ["tasks"],
@@ -106,7 +108,7 @@ export const tasksEndpoints = {
     },
   }),
   updateTask: createRoute({
-    path: "/tasks/:id",
+    path: "/tasks/{id}",
     method: "patch",
     description: "",
     tags: ["tasks"],
@@ -135,7 +137,7 @@ export const tasksEndpoints = {
     },
   }),
   deleteTask: createRoute({
-    path: "/tasks/:id",
+    path: "/tasks/{id}",
     method: "delete",
     description: "",
     tags: ["tasks"],

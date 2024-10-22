@@ -71,6 +71,9 @@ importers:
       '@hexarch/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@hono/swagger-ui':
+        specifier: ^0.4.1
+        version: 0.4.1(hono@4.6.5)
       '@hono/zod-openapi':
         specifier: ^0.16.4
         version: 0.16.4(hono@4.6.5)(zod@3.23.8)
@@ -794,6 +797,11 @@ packages:
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: ^4
+
+  '@hono/swagger-ui@0.4.1':
+    resolution: {integrity: sha512-kPaJatHffeYQ3yVkHo878hCqwfapqx54FczJVJ+eRWt8J4biyVVMIdCAJb6MyA8bcnHUoTmUpPc7OJAV1VTg2g==}
+    peerDependencies:
+      hono: '*'
 
   '@hono/zod-openapi@0.16.4':
     resolution: {integrity: sha512-mnF6GthBaKex0D5PsY/4lYNtkaGJNE38bjeUI//EUqq7Ee4TNm2su35IUiFH4HcmJp5fWYMLyOJOpjnkClzEGw==}
@@ -3988,6 +3996,10 @@ snapshots:
   '@fastify/busboy@2.1.1': {}
 
   '@hono/node-server@1.13.2(hono@4.6.5)':
+    dependencies:
+      hono: 4.6.5
+
+  '@hono/swagger-ui@0.4.1(hono@4.6.5)':
     dependencies:
       hono: 4.6.5
 

@@ -24,6 +24,16 @@ const main = async () => {
     return match?.at(0)?.replace("/", "") ?? "default";
   });
 
+  Handlebars.registerHelper("parsePath", function (path: string) {
+    return path.replaceAll(/:\w+/g, function (match) {
+      return `{${match.replace(":", "")}}`;
+    });
+  });
+
+  Handlebars.registerHelper("coerce", function (schema: string) {
+    return schema.replace(/^z\./, "z.coerce.");
+  });
+
   Handlebars.registerHelper("isNotVoidSchema", function (schema: string) {
     return schema !== "z.void()";
   });

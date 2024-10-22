@@ -1,4 +1,4 @@
-import { Task } from "@hexarch/core/domain/entities/task.entity";
+import { Task } from "@hexarch/core/task/domain/entities/task.entity";
 import { ZodTypeAny } from "zod";
 
 export function serializeTask<TSchema extends ZodTypeAny>(

@@ -1,16 +1,22 @@
 import { tasksEndpoints } from "@hexarch/contracts";
-import { DeleteTaskUseCase } from "@hexarch/core/use-cases/task/delete-task.use-case";
+import { DeleteTaskUseCase } from "@hexarch/core/task/use-cases/delete-task.use-case";
 import { OpenAPIHono } from "@hono/zod-openapi";
+
+import { createApiSpan } from "#util/create-api-span.js";
 
 export const deleteTaskRoute = new OpenAPIHono().openapi(
   tasksEndpoints.deleteTask,
   async (c) => {
-    const { id } = c.req.valid("param");
+    const span = createApiSpan(c);
 
-    await new DeleteTaskUseCase().execute({
-      id,
+    return span(async () => {
+      const { id } = c.req.valid("param");
+
+      await new DeleteTaskUseCase().execute({
+        id,
+      });
+
+      return c.text("", 204);
     });
-
-    return c.text("", 204);
   },
 );

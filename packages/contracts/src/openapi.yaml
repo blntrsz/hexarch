@@ -68,16 +68,16 @@ components:
       name: page[number]
       in: query
       description: "Page Number."
-      required: true
       schema:
         type: integer
+        default: 1
     PageSizeQueryParameter:
       name: page[size]
       in: query
       description: "Page Size."
-      required: true
       schema:
         type: integer
+        default: 20
   requestBodies:
     CreateTaskRequest:
       content:

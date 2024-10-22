@@ -1,7 +1,9 @@
 import { schemas, tasksEndpoints } from "@hexarch/contracts";
-import { ListTasksUseCase } from "@hexarch/core/use-cases/task/list-tasks.use-case";
+import { ListTasksUseCase } from "@hexarch/core/task/use-cases/list-tasks.use-case";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { Context } from "hono";
+
+import { createApiSpan } from "#util/create-api-span.js";
 
 import { serializeTask } from "./serialize";
 
@@ -30,24 +32,28 @@ function createLinks(
 export const listTasksRoute = new OpenAPIHono().openapi(
   tasksEndpoints.getTasks,
   async (c) => {
-    const query = c.req.valid("query");
+    const span = createApiSpan(c);
 
-    const result = await new ListTasksUseCase().execute({
-      pageSize: query["page[size]"],
-      pageNumber: query["page[number]"],
+    return span(async () => {
+      const query = c.req.valid("query");
+
+      const result = await new ListTasksUseCase().execute({
+        pageSize: query["page[size]"],
+        pageNumber: query["page[number]"],
+      });
+
+      return c.json(
+        {
+          data: result.data.map((d) => serializeTask(d, schemas.Task)),
+          links: createLinks(
+            c,
+            result.pageSize,
+            result.pageNumber,
+            result.hasNextPage,
+          ),
+        },
+        200,
+      );
     });
-
-    return c.json(
-      {
-        data: result.data.map((d) => serializeTask(d, schemas.Task)),
-        links: createLinks(
-          c,
-          result.pageSize,
-          result.pageNumber,
-          result.hasNextPage,
-        ),
-      },
-      200,
-    );
   },
 );

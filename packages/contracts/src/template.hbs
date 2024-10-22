@@ -22,7 +22,7 @@ export const schemas = {
 export const {{@key}}Endpoints = {
 {{#each this.endpoints}}
   {{alias}}: createRoute({
-    path: "{{path}}",
+    path: "{{parsePath path}}",
     method: "{{method}}",
     description: "{{description}}",
     tags: ["{{getTag path }}"],
@@ -30,7 +30,7 @@ export const {{@key}}Endpoints = {
       query: z.object({
       {{#each parameters}}
         {{#if (eq type 'Query')}}
-        "{{name}}": {{schema}},
+        "{{name}}": {{coerce schema}},
         {{/if}}
       {{/each}}
       }),

@@ -1,4 +1,4 @@
-import { AppSettingsProvider } from "@hexarch/core/infrastructure/settings/app-settings-provider";
+import { AppSettingsProvider } from "@hexarch/core/common/infrastructure/settings/app-settings-provider";
 import { serve } from "@hono/node-server";
 
 import { app } from "./application";
